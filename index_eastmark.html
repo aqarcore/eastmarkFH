@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>East Mark</title>
+
+<link rel="icon" type="image/png" href="favicon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --bg:#10243d;
+    --card:#17314f;
+    --gold:#c9a24d;
+    --muted:#b8c4d3;
+    --white:#ffffff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    font-family:'Inter',sans-serif;
+    color:var(--white);
+    overflow-x:hidden;
+    position:relative;
+    padding:40px 0;
+
+    background:
+    radial-gradient(circle at 20% 10%, rgba(201,162,77,.08), transparent 35%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,.04), transparent 40%),
+    var(--bg);
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    width:1200px;
+    height:1200px;
+    border-radius:50%;
+    background: radial-gradient(circle, rgba(201,162,77,.06) 0%, transparent 60%);
+    animation: floatGlow 18s ease-in-out infinite alternate;
+    pointer-events:none;
+}
+
+@keyframes floatGlow{
+    from{transform:translate(-120px,-60px);}
+    to{transform:translate(120px,80px);}
+}
+
+.grid{
+    position:fixed;
+    inset:0;
+    background-image:
+    linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+    background-size:40px 40px;
+    mask-image:radial-gradient(circle at center, black, transparent 90%);
+    pointer-events:none;
+}
+
+.cursor-glow{
+    position:fixed;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    background: radial-gradient(circle, rgba(201,162,77,.12), transparent 70%);
+    z-index:0;
+}
+
+.wrapper{
+    width:90%;
+    max-width:850px;
+    margin:auto;
+    position:relative;
+    z-index:2;
+}
+
+.header{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:50px;
+}
+
+.header img{
+    max-height:90px;
+    width:auto;
+    object-fit:contain;
+}
+
+.hero{
+    margin-bottom:60px;
+}
+
+.hero h1{
+    font-family:'Playfair Display',serif;
+    font-size:46px;
+    line-height:1.2;
+    margin-bottom:20px;
+    letter-spacing:.5px;
+}
+
+.hero h1 span{
+    color:var(--gold);
+}
+
+.hero h1::after{
+    content:"";
+    display:block;
+    width:140px;
+    height:2px;
+    margin-top:22px;
+    background:linear-gradient(90deg,var(--gold),transparent);
+}
+
+.hero p{
+    max-width:550px;
+    color:var(--muted);
+    line-height:1.8;
+    font-size:17px;
+    margin-top:22px;
+}
+
+.stats{
+    display:flex;
+    gap:35px;
+    margin-top:35px;
+    flex-wrap:wrap;
+}
+
+.stat{
+    display:flex;
+    flex-direction:column;
+}
+
+.stat strong{
+    color:var(--gold);
+    font-size:20px;
+}
+
+.stat span{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:24px;
+}
+
+.card{
+    position:relative;
+    overflow:hidden;
+    padding:34px;
+    border-radius:24px;
+    text-decoration:none;
+    color:var(--white);
+    border:1px solid rgba(255,255,255,.08);
+    background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
+    backdrop-filter:blur(14px);
+    transition:transform .35s ease, box-shadow .35s ease, border .35s ease;
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(350px circle at var(--x,50%) var(--y,50%), rgba(201,162,77,.20), transparent 60%);
+    opacity:0;
+    transition:.35s;
+}
+
+.card:hover::before{
+    opacity:1;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    border-color:rgba(201,162,77,.45);
+    box-shadow:0 25px 70px rgba(0,0,0,.55);
+}
+
+.icon{
+    font-size:42px;
+    margin-bottom:22px;
+    position:relative;
+    z-index:1;
+}
+
+.card h2{
+    font-family:'Playfair Display',serif;
+    font-size:28px;
+    margin-bottom:12px;
+    position:relative;
+    z-index:1;
+}
+
+.card p{
+    color:var(--muted);
+    line-height:1.7;
+    font-size:15px;
+    position:relative;
+    z-index:1;
+}
+
+.arrow{
+    display:inline-block;
+    margin-top:28px;
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-size:13px;
+    position:relative;
+    z-index:1;
+}
+
+footer{
+    margin-top:70px;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.header{
+    width:100%;
+    height:90px;
+    display:flex;
+    align-items:center;
+    padding:0 30px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    margin-bottom:50px;
+}
+
+@media(max-width:768px){
+.hero h1{font-size:34px;}
+.stats{gap:20px;}
+.header img{max-height:70px;}
+}
+</style>
+</head>
+<body>
+
+<div class="grid"></div>
+<div class="cursor-glow"></div>
+
+<div class="wrapper">
+
+
+
+<section class="hero">
+
+<h1>
+    East Mark<br>
+    <span>Property Solution</span>
+</h1>
+
+<p>
+    Knowledge is the strongest tool you have for smarter decisions.
+</p>
+
+<div class="stats">
+    <div class="stat">
+        <strong>24/7</strong>
+        <span>Always Available</span>
+    </div>
+
+    <div class="stat">
+        <strong>Data</strong>
+        <span>Driven Decisions</span>
+    </div>
+</div>
+
+</section>
+
+<section class="cards">
+
+<a href="https://jlo-delta.vercel.app/#11/30.0071/31.5441" class="card">
+    <div class="icon">🏠</div>
+    <h2>First Home</h2>
+    <p>
+        Discover Everything you need to know about our available units and their locations in Cairo.
+    </p>
+    <span class="arrow">Explore Units →</span>
+</a>
+
+<a href="" class="card">
+    <div class="icon">⛱️</div>
+    <h2>Second Home</h2>
+    <p>
+        Discover Everything you need to know about our available units and their locations in Egypt’s coastal cities.
+    </p>
+    <span class="arrow">Explore Units →</span>
+</a>
+
+</section>
+
+<footer>
+    © Aqar Core
+</footer>
+
+</div>
+
+<script>
+document.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+        const rect=card.getBoundingClientRect();
+        card.style.setProperty('--x',`${e.clientX-rect.left}px`);
+        card.style.setProperty('--y',`${e.clientY-rect.top}px`);
+    });
+});
+
+const glow=document.querySelector('.cursor-glow');
+
+document.addEventListener('mousemove',e=>{
+    glow.style.left=e.clientX+'px';
+    glow.style.top=e.clientY+'px';
+});
+</script>
+
+</body>
+</html>
